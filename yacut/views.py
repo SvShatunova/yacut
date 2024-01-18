@@ -2,8 +2,7 @@ import random
 import string
 from urllib.parse import urljoin
 
-from flask import flash, redirect, render_template
-# Markup
+from flask import flash, redirect, render_template, Markup
 
 
 from . import app, db, BASE_URL, SHORT_LENGTH
@@ -16,7 +15,7 @@ def get_unique_short_id():
     return ''.join(random.choice(characters) for _ in range(SHORT_LENGTH))
 
 
-@app.route('/',  methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index_view():
     form = URLForm()
     if form.validate_on_submit():
@@ -32,9 +31,9 @@ def index_view():
         db.session.add(new_url)
         db.session.commit()
         short_link = urljoin(BASE_URL, new_url.short)
-        # flash(Markup
-              # (f'Ваша новая ссылка готова: <a href="'
-               # f'{short_link}">{short_link}</a>'))
+        flash(Markup
+              (f'Ваша новая ссылка готова: <a href="'
+               f'{short_link}">{short_link}</a>'))
 
     return render_template('index.html', form=form)
 
