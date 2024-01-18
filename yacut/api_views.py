@@ -33,8 +33,8 @@ def create_short():
             'Указано недопустимое имя для короткой ссылки'
         )
     new_url = URLMap(
-         original=long_url,
-         short=short_url
+        original=long_url,
+        short=short_url
     )
     db.session.add(new_url)
     db.session.commit()
