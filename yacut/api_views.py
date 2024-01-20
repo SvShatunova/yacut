@@ -8,6 +8,7 @@ from .error_handlers import InvalidAPIUsage
 from .models import URLMap
 from .views import get_unique_short_id
 from . import BASE_URL
+from constants import NOT_FOUND, UNAUTHORIZED, BAD_REQUEST
 
 
 @app.route('/api/id/', methods=['POST'])
@@ -39,12 +40,12 @@ def create_short():
     db.session.add(new_url)
     db.session.commit()
     short_link = urljoin(BASE_URL, new_url.short)
-    return jsonify({'url': data['url'], 'short_link': short_link}), 201
+    return jsonify({'url': data['url'], 'short_link': short_link}), UNAUTHORIZED
 
 
 @app.route('/api/id/<string:short_id>/', methods=['GET'])
 def get_original_url(short_id):
     url = URLMap.query.filter_by(short=short_id).first()
     if url is None:
-        raise InvalidAPIUsage('Указанный id не найден', 404)
-    return jsonify({'url': url.original}), 200
+        raise InvalidAPIUsage('Указанный id не найден', NOT_FOUND)
+    return jsonify({'url': url.original}), BAD_REQUEST
