@@ -9,7 +9,7 @@ from . import app, db, BASE_URL, SHORT_LENGTH
 from .forms import URLForm
 from .models import URLMap
 
-from constants import DUPLICATE_LINK_MESSAGE, DUPLICATE
+from constants import DUPLICATE_LINK_MESSAGE
 
 
 def get_unique_short_id():
@@ -24,7 +24,7 @@ def index_view():
         original_inp = form.original_link.data
         short_inp = form.custom_id.data or get_unique_short_id()
         if URLMap.query.filter_by(short=short_inp).first():
-            flash('DUPLICATE_LINK_MESSAGE')
+            flash(DUPLICATE_LINK_MESSAGE)
             return render_template('index.html', form=form)
         new_url = URLMap(
             original=original_inp,
@@ -34,7 +34,7 @@ def index_view():
         db.session.commit()
         short_link = urljoin(BASE_URL, new_url.short)
         flash(Markup
-              (f'DUPLICATE: <a href="'
+              (f'Ваша новая ссылка готова: <a href="'
                f'{short_link}">{short_link}</a>'))
 
     return render_template('index.html', form=form)
