@@ -8,7 +8,7 @@ from .error_handlers import InvalidAPIUsage
 from .models import URLMap
 from .views import get_unique_short_id
 from . import BASE_URL
-from constants import NOT_FOUND, UNAUTHORIZED, BAD_REQUEST
+from .constants import NOT_FOUND, UNAUTHORIZED, BAD_REQUEST
 
 
 @app.route('/api/id/', methods=['POST'])

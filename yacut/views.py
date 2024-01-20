@@ -2,14 +2,14 @@ import random
 import string
 from urllib.parse import urljoin
 
-from flask import flash, redirect, render_template, Markup
+from flask import flash, redirect, render_template # Markup
 
 
 from . import app, db, BASE_URL, SHORT_LENGTH
 from .forms import URLForm
 from .models import URLMap
 
-from constants import DUPLICATE_LINK_MESSAGE
+from .constants import DUPLICATE_LINK_MESSAGE
 
 
 def get_unique_short_id():
@@ -33,9 +33,9 @@ def index_view():
         db.session.add(new_url)
         db.session.commit()
         short_link = urljoin(BASE_URL, new_url.short)
-        flash(Markup
-              (f'Ваша новая ссылка готова: <a href="'
-               f'{short_link}">{short_link}</a>'))
+        # flash(Markup
+              # (f'Ваша новая ссылка готова: <a href="'
+               # f'{short_link}">{short_link}</a>'))
 
     return render_template('index.html', form=form)
 
